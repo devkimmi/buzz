@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException
 from app.models.transform import TransformRequest, TransformResponse
 from app.services import musicxml, llm
 
@@ -8,7 +8,7 @@ router = APIRouter()
 @router.post("/transform", response_model=TransformResponse)
 async def transform_score(
     file: UploadFile = File(...),
-    difficulty: str = "easier",  # "easier" | "harder"
+    difficulty: str = Form("easier"),
 ):
     content = await file.read()
 
