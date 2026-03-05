@@ -1,7 +1,7 @@
-import anthropic
 import os
+from google import genai
 
-client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
 
 DIFFICULTY_PROMPTS = {
     "easier": """You are a music arranger. Simplify the given MusicXML score to make it easier to play:
@@ -20,15 +20,9 @@ Return ONLY the modified MusicXML. No explanation.""",
 async def transform(musicxml_content: str, difficulty: str = "easier") -> str:
     prompt = DIFFICULTY_PROMPTS.get(difficulty, DIFFICULTY_PROMPTS["easier"])
 
-    message = client.messages.create(
-        model="claude-opus-4-6",
-        max_tokens=8192,
-        messages=[
-            {
-                "role": "user",
-                "content": f"{prompt}\n\n{musicxml_content}",
-            }
-        ],
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=f"{prompt}\n\n{musicxml_content}",
     )
 
-    return message.content[0].text
+    return response.text
