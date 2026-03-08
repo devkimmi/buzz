@@ -1,8 +1,9 @@
-import os
 import re
 from google import genai
 
-client = genai.Client(api_key=os.environ["GOOGLE_API_KEY"])
+from app.config import settings
+
+client = genai.Client(api_key=settings.google_api_key)
 
 MODEL = "gemini-2.5-flash"
 
