@@ -175,35 +175,19 @@ This knowledge forms the foundation of the Rule Engine and LLM prompts.
 
 ## References
 
-### 1. Optical Music Recognition (OMR)
+### Optical Music Recognition (OMR)
 
 Converting PDF or image scores into structured digital formats (MusicXML, MIDI).
 
-- **[Deep Learning for Optical Music Recognition: A Review](https://arxiv.org/abs/1907.12328)**
+- **[Understanding Optical Music Recognition](https://arxiv.org/abs/1908.03608)**
   Survey paper covering the full OMR technology stack and its limitations. Best starting point for understanding the field.
 
-- **[End-to-End Optical Music Recognition using Neural Networks](https://arxiv.org/abs/1801.07115)**
-  CRNN-based approach that reads an entire score as a sequence rather than recognizing individual symbols. Strong performance-to-complexity ratio.
-
-### 2. Score Simplification & Arrangement
-
-Compressing complex scores into playable, simplified forms.
-
-- **[Automatic Piano Reduction from Ensemble Scores (ISMIR 2014)](https://ismir2014.ismir.net/ismir2014/papers/15_Paper.pdf)**
-  HMM-based mathematical model for reducing multi-instrument or dense chord textures to a single piano part. A solid foundation for simplification rule design.
-
-- **[The Skyline Algorithm for Musical Melody Extraction](https://www.researchgate.net/publication/220854483)**
-  Standard algorithm for extracting the most salient melody line from a complex score. Essential reference for building a rule-based simplification engine.
-
-### 3. Style Transfer & Symbolic Music Generation
+### Symbolic Music Generation
 
 Adjusting difficulty or changing style while preserving musical context.
 
 - **[Music Transformer: Generating Music with Long-Term Structure](https://arxiv.org/abs/1809.04281)**
   Google Magenta research on how AI learns the repetitive structural patterns in music. Reference architecture for treating MusicXML as a sequence model input.
-
-- **[PopMAG: Pop Music Accompaniment Generation](https://arxiv.org/abs/2008.07703)**
-  Automatic accompaniment generation from a melody line. Relevant for generating idiomatic easy accompaniments alongside a simplified melody.
 
 ---
 
