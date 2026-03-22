@@ -182,6 +182,9 @@ Converting PDF or image scores into structured digital formats (MusicXML, MIDI).
 - **[Understanding Optical Music Recognition](https://arxiv.org/abs/1908.03608)**
   Survey paper covering the full OMR technology stack and its limitations. Best starting point for understanding the field.
 
+- **[oemer — End-to-End OMR](https://github.com/BreezeWhite/oemer)**
+  Open-source OMR tool built on deep learning. Takes a sheet music image (including skewed or phone-taken photos) and outputs MusicXML. Most practical starting point for implementing the PDF/image input pipeline.
+
 ### Symbolic Music Generation
 
 Adjusting difficulty or changing style while preserving musical context.
