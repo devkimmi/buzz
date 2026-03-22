@@ -30,6 +30,12 @@ This project automates that with AI.
 ## Architecture
 
 ```
+[Client]
+ ┌─────────────────────────────────────┐
+ │       Web App / Mobile & Tablet     │
+ └──────────────────┬──────────────────┘
+                    │ upload score + transformation request
+                    ▼
 [Input]
  ┌─────────────────────────────────────┐
  │  MusicXML / PDF / Image / MIDI      │
