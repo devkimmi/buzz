@@ -185,12 +185,37 @@ Converting PDF or image scores into structured digital formats (MusicXML, MIDI).
 - **[oemer — End-to-End OMR](https://github.com/BreezeWhite/oemer)**
   Open-source OMR tool built on deep learning. Takes a sheet music image (including skewed or phone-taken photos) and outputs MusicXML. Most practical starting point for implementing the PDF/image input pipeline.
 
+### Music Representation
+
+How music is encoded as input to rules, LLMs, or ML models — the most critical architectural decision in the stack.
+
+- **[ABC Notation](https://abcnotation.com/)**
+  A compact, human-readable text format for music. Represents the same content as MusicXML at roughly 1/10 the token count, making it significantly more effective as LLM input. music21 supports conversion to/from ABC natively.
+
+- **[miditok](https://github.com/Natooz/MidiTok)**
+  Tokenization library for symbolic music — the BPE equivalent for MIDI/music. Provides multiple strategies (REMI, Octuple, etc.) for converting music into token sequences suitable for training or fine-tuning transformer models.
+
+### Music Analysis
+
+Structural understanding of a score — prerequisite for any intelligent transformation.
+
+- **[music21](https://web.mit.edu/music21/)** *(already in use)*
+  Beyond its use as a transformation engine, music21 supports voice separation, Roman numeral harmonic analysis, and instrument range validation. Leveraging these analysis features reduces reliance on the LLM for structural decisions (e.g. identifying melody vs. passing tones).
+
+### Score Rendering
+
+- **[Verovio](https://www.verovio.org/)**
+  Open-source MusicXML → SVG engraver. Produces LilyPond-quality output with Python and JavaScript bindings. A more robust alternative to OSMD for production rendering.
+
 ### Symbolic Music Generation
 
 Adjusting difficulty or changing style while preserving musical context.
 
 - **[Music Transformer: Generating Music with Long-Term Structure](https://arxiv.org/abs/1809.04281)**
   Google Magenta research on how AI learns the repetitive structural patterns in music. Reference architecture for treating MusicXML as a sequence model input.
+
+- **[MusicBERT: Symbolic Music Understanding with Large-Scale Pre-Training](https://arxiv.org/abs/2106.05630)**
+  BERT pre-trained on symbolic music. Provides a strong foundation for downstream tasks such as difficulty classification and style recognition via fine-tuning.
 
 ---
 
