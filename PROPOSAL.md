@@ -2,7 +2,7 @@
 
 ---
 
-## Problem
+## Problem Statement
 
 Finding sheet music is easy. Finding the *right* sheet music is not.
 
