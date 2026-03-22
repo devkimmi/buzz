@@ -198,3 +198,17 @@ Adjusting difficulty or changing style while preserving musical context.
 
 - **[PopMAG: Pop Music Accompaniment Generation](https://arxiv.org/abs/2008.07703)**
   Automatic accompaniment generation from a melody line. Relevant for generating idiomatic easy accompaniments alongside a simplified melody.
+
+---
+
+## Meeting Agenda
+
+0. Are you still interested in working on this project together after our conversation?
+
+1. If yes — how many hours per week are you available to commit?
+
+2. Alignment on direction
+   - Does the concept feel worth your time?
+   - Any features you'd add or change?
+
+3. Open questions / anything else
