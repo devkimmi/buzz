@@ -16,7 +16,7 @@ This project automates that with AI.
 
 ---
 
-## Features (in development order)
+## Features
 
 | # | Feature | Description |
 |---|---------|-------------|
@@ -79,6 +79,28 @@ Build a working version with 1–2 killer features. Release to a community, coll
 
 **Key question for this phase:** Is the output actually usable? What do people want most?
 
+#### Domain Expert Involvement in Phase 1
+
+The domain expert's role evolves as the phase progresses:
+
+```
+Early Phase 1                        Later Phase 1
+──────────────────────────────────────────────────────────────
+
+ Upload score                         Upload score
+      │                                    │
+      ▼                                    ▼
+ Review output          ──────►      Tune prompts directly
+      │                                    │
+      ▼                                    ▼
+ Report issues                       Observe output change
+ (what's wrong,                      (no coding required —
+  how to fix it)                      edit system/user prompt
+                                       text in the UI)
+```
+
+Once the basic pipeline is stable, the domain expert can tune the LLM behavior directly — without touching code. By feeding in various scores and adjusting the system/user prompts, the transformation quality can be improved from a purely musical perspective.
+
 ---
 
 ### Backlog (reprioritized after Phase 1 feedback)
@@ -95,7 +117,7 @@ Build a working version with 1–2 killer features. Release to a community, coll
 
 ## Collaboration
 
-Code is handled by the developer. Two things are needed from the music collaborator:
+Code is handled by the developer. Two things are needed from the domain expert:
 
 ### 1. Feedback on AI-generated scores
 Play through the transformed scores and report:
