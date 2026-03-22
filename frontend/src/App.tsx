@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { OpenSheetMusicDisplay } from "osmd-audio-player/node_modules/opensheetmusicdisplay";
 import PlaybackEngine from "osmd-audio-player";
-import { transformScore } from "./api";
+import { transformScore, type ProgressEvent } from "./api";
 
 type Difficulty = "easier" | "harder";
 
@@ -87,6 +87,7 @@ export default function App() {
   const [file, setFile] = useState<File | null>(null);
   const [difficulty, setDifficulty] = useState<Difficulty>("easier");
   const [loading, setLoading] = useState(false);
+  const [steps, setSteps] = useState<ProgressEvent[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [originalXml, setOriginalXml] = useState<string | null>(null);
   const [resultXml, setResultXml] = useState<string | null>(null);
@@ -109,9 +110,12 @@ export default function App() {
     setLoading(true);
     setError(null);
     setResultXml(null);
+    setSteps([]);
 
     try {
-      const xml = await transformScore(file, difficulty);
+      const xml = await transformScore(file, difficulty, (event) => {
+        if (event.type === "progress") setSteps((prev) => [...prev, event]);
+      });
       setResultXml(xml);
     } catch (e) {
       setError(e instanceof Error ? e.message : "알 수 없는 오류");
@@ -178,6 +182,17 @@ export default function App() {
           {loading ? "변환 중..." : "변환하기"}
         </button>
       </div>
+
+      {steps.length > 0 && (
+        <div style={{ marginBottom: 16, padding: "12px 16px", background: "#f0f4ff", borderRadius: 6, fontSize: 14 }}>
+          {steps.map((s) => (
+            <div key={s.step} style={{ marginBottom: 4 }}>
+              ✓ Step {s.step}: {s.message}
+            </div>
+          ))}
+          {loading && <div style={{ color: "#1a73e8" }}>⏳ 처리 중...</div>}
+        </div>
+      )}
 
       {error && <p style={{ color: "red", marginBottom: 16 }}>{error}</p>}
 

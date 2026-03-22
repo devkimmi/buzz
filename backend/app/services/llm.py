@@ -3,13 +3,17 @@ from google import genai
 
 from app.config import settings
 
-client = genai.Client(api_key=settings.google_api_key)
+client = genai.Client(
+    vertexai=True,
+    project=settings.gcp_project_id,
+    location=settings.gcp_location,
+)
 
 MODEL = "gemini-2.5-flash"
 
 
-def _call(prompt: str) -> str:
-    response = client.models.generate_content(model=MODEL, contents=prompt)
+async def _call(prompt: str) -> str:
+    response = await client.aio.models.generate_content(model=MODEL, contents=prompt)
     return response.text.strip()
 
 
@@ -68,22 +72,25 @@ Rules:
 - Return ONLY valid MusicXML. No markdown, no code fences, no explanation."""
 
 
-async def transform(musicxml_content: str, difficulty: str = "easier") -> str:
+async def transform(musicxml_content: str, difficulty: str = "easier"):
     original_count = musicxml_content.count("<note>")
     print(f"\n{'='*40}")
     print(f"[Transform] difficulty={difficulty}, original notes={original_count}")
     print(f"{'='*40}")
 
     # Step 1: 음표 추출
-    notes_json = _call(STEP1_PROMPT.format(xml=musicxml_content))
+    yield {"type": "progress", "step": 1, "message": "음표 추출 중..."}
+    notes_json = await _call(STEP1_PROMPT.format(xml=musicxml_content))
     print(f"[Step1] extracted notes:\n{notes_json[:400]}\n")
 
     # Step 2: 변환 계획 수립
-    plan_json = _call(STEP2_PROMPTS[difficulty].format(notes=notes_json))
+    yield {"type": "progress", "step": 2, "message": "변환 계획 수립 중..."}
+    plan_json = await _call(STEP2_PROMPTS[difficulty].format(notes=notes_json))
     print(f"[Step2] plan ({difficulty}):\n{plan_json[:400]}\n")
 
     # Step 3: 변환 계획 적용
-    result = _call(STEP3_PROMPT.format(xml=musicxml_content, plan=plan_json))
+    yield {"type": "progress", "step": 3, "message": "악보 변환 적용 중..."}
+    result = await _call(STEP3_PROMPT.format(xml=musicxml_content, plan=plan_json))
     result_count = result.count("<note>")
     print(f"[Step3] result notes={result_count} (변화: {original_count} → {result_count})")
     print(f"{'='*40}\n")
@@ -98,4 +105,4 @@ async def transform(musicxml_content: str, difficulty: str = "easier") -> str:
     if grace_removed:
         print(f"[Post] grace notes removed: {grace_removed}")
 
-    return result.strip()
+    yield {"type": "done", "musicxml": result.strip()}

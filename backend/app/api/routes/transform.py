@@ -1,11 +1,12 @@
+import json
 from fastapi import APIRouter, UploadFile, File, Form, HTTPException
-from app.models.transform import TransformRequest, TransformResponse
+from fastapi.responses import StreamingResponse
 from app.services import musicxml, llm
 
 router = APIRouter()
 
 
-@router.post("/transform", response_model=TransformResponse)
+@router.post("/transform")
 async def transform_score(
     file: UploadFile = File(...),
     difficulty: str = Form("easier"),
@@ -15,6 +16,8 @@ async def transform_score(
     if not musicxml.is_valid(content):
         raise HTTPException(status_code=400, detail="Invalid MusicXML file")
 
-    transformed = await llm.transform(content.decode(), difficulty=difficulty)
+    async def event_stream():
+        async for event in llm.transform(content.decode(), difficulty=difficulty):
+            yield f"data: {json.dumps(event)}\n\n"
 
-    return TransformResponse(musicxml=transformed)
+    return StreamingResponse(event_stream(), media_type="text/event-stream")
