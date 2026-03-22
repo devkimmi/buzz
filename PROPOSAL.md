@@ -115,6 +115,37 @@ Once the basic pipeline is stable, the domain expert can tune the LLM behavior d
 
 ---
 
+## Why a Domain Expert Is Needed
+
+During initial development, the full transformation was delegated to an LLM without structured musical guidance. The results exposed a fundamental limitation:
+
+**LLMs default to statistically safe, surface-level transformations.**
+
+Without an explicit model of what "easier" or "idiomatic" means in musical terms, the LLM has no basis for making musically intelligent decisions. What it produces instead:
+
+- **Difficulty reduction** → uniform note value stretching (e.g. all 16ths → 8ths), with no consideration of which passages are technically demanding and why
+- **No awareness of structural hierarchy** → melody notes, passing tones, and ornaments are treated as equivalent; the wrong ones get modified
+- **No idiomatic reasoning** → transformations are harmonically and rhythmically plausible on paper, but ignore instrument-specific constraints (hand position, breath phrasing, bow technique, etc.)
+
+The core issue is that musical arranging is not a pattern-matching problem — it requires a decision hierarchy:
+
+```
+What is the musical intent of this passage?
+        │
+        ▼
+Which elements are structurally essential vs. expendable?
+        │
+        ▼
+What transformations preserve musical coherence at the target difficulty/style/instrument?
+        │
+        ▼
+In what order should those transformations be applied?
+```
+
+An LLM prompted without this hierarchy collapses it into a single step, producing output that is technically valid but musically shallow. The role of the domain expert is to encode this decision hierarchy — as rules, prompt structure, and evaluation criteria — so the system can produce transformations that reflect how a trained arranger actually thinks.
+
+---
+
 ## Collaboration
 
 Code is handled by the developer. Two things are needed from the domain expert:
